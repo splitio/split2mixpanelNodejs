@@ -1,16 +1,17 @@
 const axios = require('axios').default;
 const base64js = require('base64-js')
+const { URLSearchParams } = require('url');
 
 exports.handler = async(event) => {
 
     const encodedMixpanelToken = event["queryStringParameters"].m;
-    const mixpanelSecret = Buffer.from(base64js.toByteArray(encodedMixpanelToken));
+    const mixpanelSecret = Buffer.from(base64js.toByteArray(encodedMixpanelToken)).toString().trim();
 
     const body = JSON.parse(event.body);
     let events = [];
     for (const impression of body) {
         let event = {
-            event: 'experiment_started',
+            event: '$experiment_started',
             properties: {
                 "Experiment name": impression.split,
                 "Variant name": impression.treatment,
@@ -18,7 +19,7 @@ exports.handler = async(event) => {
                 split: impression.split,
                 distinct_id: impression.key,
                 token: mixpanelSecret,
-                time: parseInt(impression.time) / 1000,
+                time: Math.trunc(parseInt(impression.time) / 1000),
                 treatment: impression.treatment,
                 label: impression.label,
                 environmentId: impression.environmentId,
@@ -30,18 +31,26 @@ exports.handler = async(event) => {
         }
         events.push(event);
     }
+
+    const encodedParams = new URLSearchParams();
     const mixpanelBody = JSON.stringify(events);
-    const encodedBody = base64js.fromByteArray(mixpanelBody);
-    const postBody = "data=" + encodedBody;
-    
-    await axios.post('http://api.mixpanel.com/track/', postBody, {headers: {'Content-Type': 'application.json'}})
+    encodedParams.set('data', mixpanelBody);
+
+    await axios.post('http://api.mixpanel.com/track/', encodedParams, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Accept': 'text/plain'
+            }
+        })
         .then(function(response) {
-            console.log('sent ' + events.length + ' events to MixPanel');
+            console.log(response.data);
         })
         .catch(function(error) {
-            console.log(error);            
+                    console.log(error);
         });
 
+    console.log('sent ' + events.length + ' events to MixPanel');
+    
     const response = {
         statusCode: 200,
         body: JSON.stringify('Hello from Lambda!'),
