@@ -1,0 +1,15 @@
+{
+  "name": "split2mixpanel",
+  "version": "1.0.0",
+  "description": "Split impressions webhook to send events to MixPanel",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David B. Martin",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.22.0",
+    "base64-js": "^1.5.1"
+  }
+}
