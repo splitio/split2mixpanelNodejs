@@ -31,7 +31,7 @@ In AWS, create a new lambda called split2mixpanel.  Using the code interface, up
 
 Your lambda is ready for action, but needs an REST API gateway.  In AWS, build a new REST API.  Give it a POST method and link it to your lambda.  Check the box 'Use Lambda Proxy Integration'.
 
-<img src="http://www.cortazar-split.org/lambda_proxy.png"/>
+![alt text](http://www.cortazar-split.com/lambda_proxy.png)
 
 Deploy the POST method and copy the URL, which will look something like this:
 
