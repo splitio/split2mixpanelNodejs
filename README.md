@@ -6,7 +6,7 @@ This is a node.js lambda that acts as a Split impressions webhook: parse the imp
 
 ## Pre-requisites
 
-These instructions expect a reader that is adept with AWS lambdas and AWS API gateway. You must also have the node.js package manager, 'npm', installed.  If you have never used npm or git, you can 
+These instructions expect a reader that is adept with AWS lambdas and AWS API gateway. You must also have the node.js package manager, 'npm', installed.  If you have never used npm or git, you can use nvm or brew to install it.
 
 ```
 brew install npm
@@ -21,7 +21,7 @@ You will be cloning the node.js repository locally, installing its dependencies,
 From the OSX command line (other platforms will be virtually the same), make a new directory and 
 
 ```bash
-git clone https://github.com/dbmartin00/split2mixpanelNodejs.git
+git clone <copy link to the repository from github>.git
 cd split2mixpanelNodejs
 npm install 
 zip -r split2mixpanel.zip .
